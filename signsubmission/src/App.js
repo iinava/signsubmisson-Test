@@ -4,7 +4,7 @@ import Form from './pages/Form';
 
 function App() {
   return (
-    <div className="App w-screen h-auto flex items-center flex-col mt-10">
+    <div className=" w-90vw h-auto flex items-center flex-col mt-10">
       <Form/>
     </div>
   );
