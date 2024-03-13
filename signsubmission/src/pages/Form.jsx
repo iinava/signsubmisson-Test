@@ -73,7 +73,7 @@ export default function Form() {
   };
 
   return (
-    <div className="rounded-[10px] h-[auto] py-10 px-10 sm:px-20 sm:border sm:shadow-md sm:shadow-white flex flex-col items-center align-middle">
+    <div className="rounded-[10px] h-[auto] py-10 px-10 sm:px-20  flex flex-col items-center align-middle">
       <h1 className="text-green-500 text-center text-3xl font-bold uppercase">
         Enter Details
       </h1>
@@ -94,7 +94,7 @@ export default function Form() {
               onChange={inputchange}
               class="bg-[#292929] border-2 appearance-none outline-none border-[#3e3e3e] rounded-lg text-white px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition m-3 w-full"
               type="text"
-            />{" "}
+            />
           </div>
           <div className="flex flex-col items-center justify-center">
             {errmessages.email ? (
