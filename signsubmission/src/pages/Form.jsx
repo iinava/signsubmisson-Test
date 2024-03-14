@@ -17,7 +17,7 @@ export default function Form() {
     e.preventDefault();
     const fileName = `signature_${Date.now()}.png`;
     const url = sign.getTrimmedCanvas().toDataURL("image/png");
-    const file = new File([url], fileName, { type: "image/png" });
+    const file = new File([url], fileName, { type: "image/png" });   //saving signature as png image
     console.log(file, "file");
     setinput({ ...input, signature: file });
 

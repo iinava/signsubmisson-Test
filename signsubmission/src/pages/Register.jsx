@@ -39,7 +39,8 @@ export default function Register() {
 //registration
 
   const handleRegistration = (e) => {
-    e.preventDefault();
+    e.preventDefault()
+    
 
     seterrmessages(validate(FormData));
   };
@@ -51,14 +52,14 @@ export default function Register() {
     lg:border lg:shadow-md lg:border-white lg:border-opacity-20 lg:shadow-white
   "
     >
-      <form action="">
+      <form action="" onSubmit={(e)=>e.preventDefault()}>
         <h1 className="text-green-500 text-3xl text-center uppercase font-bold  underline underline-offset-4 decoration-green-500 -rotate-3">
           Registration
         </h1>
         <br />
         <span className="text-white ">
           Aldready have an account ?
-          <a className="underline hover:text-green-500" href="">
+          <a className="underline hover:text-green-500" href="/">
             Sign in
           </a>
         </span>
@@ -118,7 +119,7 @@ export default function Register() {
             onClick={(e) => {
               handleRegistration(e);
             }}
-            className="px-6 py-3 bg-[#191919] border hover:bg-green-500 text-white hover:text-black rounded-[10px]"
+            className="px-6 py-3 bg-[#191919] border border-[#3e3e3e] hover:bg-green-500 text-white hover:text-black rounded-[10px]"
           >
             Sign Up Now
           </button>

@@ -30,7 +30,7 @@ export default function Login() {
         <br />
         <span className="text-white ">
           Dont have an account ?{" "}
-          <a className="underline hover:text-green-500" href="">
+          <a className="underline hover:text-green-500" href="/register">
             Sign up now
           </a>
         </span>
@@ -47,7 +47,7 @@ export default function Login() {
           />
         </div>
         <div className="w-full flex justify-center align-middle">
-          <button onClick={(e)=>{handleLogin(e)}} className="px-6 py-3 bg-[#191919] border hover:bg-green-500 text-white hover:text-black rounded-[10px]">
+          <button onClick={(e)=>{handleLogin(e)}} className="px-6 py-3 bg-[#191919] border border-[#3e3e3e] hover:bg-green-500 text-white hover:text-black rounded-[10px]">
             Sign in
           </button>
         </div>
