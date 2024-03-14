@@ -65,4 +65,6 @@ Once both the frontend and backend servers are running, you should be able to ac
 
 ### Note
 - Ensure that both frontend and backend servers are running simultaneously for the full functionality of the application.
+- Ensure data connection (files are stored in cloud)
+- admin123@gmail.com , admin123@A  for testing or register new user
 - This README assumes default configurations for running React and Django applications. Modify commands as necessary based on your specific setup.
