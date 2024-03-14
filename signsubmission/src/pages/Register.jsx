@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import {  useNavigate } from 'react-router-dom';
+import axios from 'axios'
+import{toast,Toaster} from "react-hot-toast"
 
 export default function Register() {
   const [FormData, setFormData] = useState({});
   const [errmessages, seterrmessages] = useState({});
+  const [submit, setsubmit] = useState(false)
   const inputchange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -37,12 +41,27 @@ export default function Register() {
   };
 
 //registration
-
+  const navigate = useNavigate();
   const handleRegistration = (e) => {
     e.preventDefault()
-    
-
     seterrmessages(validate(FormData));
+    setsubmit(true)
+
+    if (Object.keys(errmessages).length === 0 && submit) {
+      toast('registering!', {
+        icon: '🔃',
+      });
+      axios.post('http://127.0.0.1:8000/api/registration', FormData).then((res) => {
+        
+        console.log(res);
+        navigate("/")
+      }).catch((err) => {
+        console.log(err)
+      })
+      // console.log(FormData,"check for issues");
+     
+    }
+
   };
   
   return (
@@ -52,6 +71,10 @@ export default function Register() {
     lg:border lg:shadow-md lg:border-white lg:border-opacity-20 lg:shadow-white
   "
     >
+    <Toaster
+    position="top-center"
+    reverseOrder={false}
+  />
       <form action="" onSubmit={(e)=>e.preventDefault()}>
         <h1 className="text-green-500 text-3xl text-center uppercase font-bold  underline underline-offset-4 decoration-green-500 -rotate-3">
           Registration

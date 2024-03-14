@@ -1,8 +1,11 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SignatureCanvas from "react-signature-canvas";
-
+import { Toaster, toast } from "react-hot-toast";
 export default function Form() {
   const [sign, setsign] = useState();
+  const [submit, setsubmit] = useState(false)
   const [isSignatureSaved, setisSignatureSaved] = useState(false);
 
   // console.log(sign, "sign properties");
@@ -15,22 +18,38 @@ export default function Form() {
   };
   const handleSave = (e) => {
     e.preventDefault();
-    const fileName = `signature_${Date.now()}.png`;
-    const url = sign.getTrimmedCanvas().toDataURL("image/png");
-    const file = new File([url], fileName, { type: "image/png" });   //saving signature as png image
-    console.log(file, "file");
-    setinput({ ...input, signature: file });
+    e.preventDefault();
+  const fileName = `signature_${Date.now()}.png`;
+  const canvasDataUrl = sign.getTrimmedCanvas().toDataURL("image/png");
 
-    setisSignatureSaved(true);
+  // Convert data URL to Blob
+  fetch(canvasDataUrl)
+    .then((res) => res.blob())
+    .then((blob) => {
+      // Create File object from Blob
+      const file = new File([blob], fileName, { type: "image/png" });
+
+      // Save File object to state or send it to backend
+      setinput({ ...input, signature: file });
+      setisSignatureSaved(true);
+      console.log(input);
+    })
+    .catch((error) => {
+      console.error("Error converting canvas data to Blob:", error);
+    });
+    // console.log(input,"with added file");
   };
-
+  const userid = localStorage.getItem("login_id");
   // -----------------------------------------------form data handling
-  const [input, setinput] = useState({});
+  const [input, setinput] = useState({
+    adderId: userid,
+  });
   const inputchange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
 
     setinput({ ...input, [name]: value });
+    console.log(input);
   };
   // console.log(input, "input data");
 
@@ -64,16 +83,53 @@ export default function Form() {
   };
 
   // submit form function
-
+ const navigate=useNavigate()
   const handleSubmit = (e) => {
+    setsubmit(true)
     e.preventDefault();
     const updatedInput = { ...input };
-    console.log(updatedInput, "final output");
+    console.log(updatedInput, "final input");
+   
     seterrmessages(validate(updatedInput));
+    const formData = new FormData();
+    formData.append("name", updatedInput.name);
+    formData.append("email", updatedInput.email);
+    formData.append("phone", updatedInput.phone);
+    formData.append("adderId", updatedInput.adderId);
+    formData.append("signature", updatedInput.signature);
+  
+    if (Object.keys(errmessages).length === 0 && submit) {
+      toast('uploading!', {
+        icon: '🔃',
+      });
+      axios
+        .post("http://127.0.0.1:8000/api/addsign", formData)
+        .then((res) => {
+          console.log(res);
+          toast.success('Successfully added sign! ✅', {
+            duration: 6000 
+          });
+          setTimeout(() => {
+            navigate("/view");
+          }, 2000);
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("failed ", {
+            duration: 6000 
+          });
+        });
+       
+      // console.log(FormData,"check for issues");
+    }
   };
 
   return (
     <div className="rounded-[10px] h-[auto] py-10 px-10 sm:px-20  flex flex-col items-center align-middle">
+      <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
       <h1 className="text-green-500 text-center text-3xl font-bold uppercase">
         Enter Details
       </h1>
